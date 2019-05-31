@@ -1,0 +1,19 @@
+// Auto-generated view interface
+
+{% for type in types.implementing.AutoFactory %}
+{% set FactoryName %}{{ type.name }}Factory{% endset %}
+{% set FactoryProperty %}{{ type.name|lowerFirstLetter }}Factory{% endset %}
+typealias {{ FactoryName }} = ({% for parameter in type.initializers.first.parameters where parameter.name != "dependencies" %}{% if type.typealiases[parameter.typeName] %}{{ type.typealiases[parameter.typeName].name }}{% else %}{{ parameter.typeName }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %}) -> {{ type.name }}
+protocol Has{{ FactoryName }} {
+    var {{ FactoryProperty }}: {{ FactoryName }} { get }
+}
+
+extension AppDependency: Has{{ FactoryName }} {
+    var {{ FactoryProperty }}: {{ FactoryName }} {
+        return { {% for parameter in type.initializers.first.parameters where parameter.name != "dependencies" %}{{ parameter.name }}{% if not forloop.last %}, {% endif %}{% endfor %} in
+            return {{ type.name }}({% for parameter in type.initializers.first.parameters %}{% if parameter.name == "dependencies" %}dependencies: self{% else %}{{ parameter.name }}: {{ parameter.name }}{% endif %}{% if not forloop.last %}, {% endif %}{% endfor %})
+        }
+    }
+}
+
+{% endfor %}

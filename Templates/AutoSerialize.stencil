@@ -1,0 +1,24 @@
+// Auto-generated serialize method
+
+{% for type in types.implementing.AutoSerialize where type.kind != "protocol" %}
+extension {{ type.name }} {
+
+    func serialize() -> [String: Any] {
+        var data: [String: Any] = [:]
+
+        {% for var in type.variables where not var.annotations.skipMapping and not var.isComputed or var.isComputed and var.annotations.forceSerialize %}
+        {% if var.annotations.serializeKey %}
+        data["{{ var.annotations.serializeKey }}"] =? {{ var.name }}
+        {% elif var.annotations.mappingKey %}
+        data["{{ var.annotations.mappingKey}}"] =? {{ var.name }}
+        {% else %}
+        data["{{ var.name }}"] =? {{ var.name }}
+        {% endif %}
+        {% endfor %}
+
+        return data
+    }
+
+}
+
+{% endfor %}

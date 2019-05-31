@@ -1,0 +1,27 @@
+// Auto-generated view interface
+
+{% for type in types.inheriting.UIView %}
+extension {{ type.name }} {
+    {% for var in type.variables %}
+    {% if var.typeName|contains:"Label" %}
+    var {{ var.name|replace:"Label","" }}: String? {
+        get { return {{ var.name }}.text }
+        set { {{ var.name }}.text = newValue }
+    }
+    
+    {% elif var.typeName|contains:"Button" %}
+    var {{ var.name }}Title: String? {
+        get { return {{ var.name }}.title(for: .normal) }
+        set { {{ var.name }}.setTitle(newValue, for: .normal) }
+    }
+
+    {% if var.annotations.isEnabled %}
+    var is{{ var.name|upperFirstLetter }}Enabled: Bool {
+        get { return {{ var.name }}.isEnabled }
+        set { {{ var.name }}.isEnabled = newValue }
+    }
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+}
+{% endfor %}
