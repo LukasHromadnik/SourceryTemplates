@@ -1,0 +1,19 @@
+// Auto-generated Decodable initializer
+
+{% for type in types.implementing.AutoDecodable where type.kind != "protocol" and type.storedVariables.count > 0 %}
+extension {{ type.name }}: Decodable {
+
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        {% for var in type.storedVariables where not var.annotations.skipMapping %}
+        {% set key %}.{{ var.name }}{% endset %}
+        {% if var.isOptional %}
+        {{ var.name }} = try container.decodeIfPresent({{ var.typeName|replace:"?","" }}.self, forKey: {{ key }})
+        {% else %}
+        {{ var.name }} = try container.decode({{ var.typeName }}.self, forKey: {{ key }})
+        {% endif %}
+        {% endfor %}
+    }
+
+}
+{% endfor %}
