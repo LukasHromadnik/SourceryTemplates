@@ -8,7 +8,8 @@ extension Event {
         case id
         case name
         case listID = "listid"
-        case timestamp
+        // swiftlint:disable:next identifier_name
+        case _timestamp
         case fields
         case tags
         case data

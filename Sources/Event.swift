@@ -3,7 +3,7 @@ struct Event: AutoDecodable {
     let name: String
     // sourcery:apiKey = listid
     let listID: String
-    let timestamp: String
+    let _timestamp: String
     let fields: [String: String]
     let tags: [String: String]
     let data: Data?

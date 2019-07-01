@@ -1,0 +1,28 @@
+// Auto-generated AutoReactive interface
+
+import ReactiveSwift
+
+{% for type in types.implementing.APIService %}
+// sourcery:inline:{{ type.name }}.APIService
+{% set baseName %}{{ type.name|replace:"APIService",""|lowercase }}{% endset %}
+{% set apiProtocolName %}{{ baseName|upperFirstLetter }}APIServicing{% endset %}
+{% set apiName %}{{ baseName|upperFirstLetter }}APIService{% endset %}
+protocol Has{{ baseName|upperFirstLetter }}API {
+    var {{ baseName }}Api: {{ apiProtocolName }} { get }
+}
+
+protocol {{ apiProtocolName }} {
+{% for method in type.methods %}
+    {% if not method.name|contains:"init" %}
+    {% if method.accessLevel != "private" %}
+    {% if method.accessLevel != "fileprivate" %}
+    func {{ method.name }} -> {{ method.returnTypeName }}
+    {% endif %}
+    {% endif %}
+    {% endif %}
+{% endfor %}
+}
+
+extension {{ apiName }}: {{ apiProtocolName }} { }
+// sourcery:end
+{% endfor %}

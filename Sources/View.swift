@@ -1,6 +1,6 @@
 class UIView { }
 
-class MyView: UIView {
+class MyView: UIView, AutoInterface {
 
     private weak var titleLabel: UILabel!
     private weak var textLabel: UILabel!
@@ -9,6 +9,19 @@ class MyView: UIView {
     private weak var button: UIButton!
 
 }
+
+// sourcery:inline:MyView.AutoInterface
+extension MyView {
+    var title: String? {
+        get { return titleLabel.text }
+        set { titleLabel.text = newValue }
+    }
+    var text: String? {
+        get { return textLabel.text }
+        set { textLabel.text = newValue }
+    }
+}
+// sourcery:end
 
 class Button: UIButton {
 

@@ -1,0 +1,23 @@
+// Auto-generated view interface
+
+{% for type in types.implementing.AutoInterface %}
+// sourcery:inline:{{ type.name }}.AutoInterface
+extension {{ type.name }} {
+    {% for var in type.variables %}
+    {% if not var.annotations["skipInterface"] %}
+    {% if var.typeName|hasPrefix:"UILabel" %}
+    var {{ var.name|replace:"Label", "" }}: String? {
+        get { return {{ var.name }}.text }
+        set { {{ var.name }}.text = newValue }
+    }
+    {% elif var.typeName|hasPrefix:"UIImageView" %}
+    var {{ var.name|replace:"ImageView", ""}}: UIImage? {
+        get { return {{ var.name }}.image }
+        set { {{ var.name }}.image = newValue }
+    }
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+}
+// sourcery:end
+{% endfor %}
