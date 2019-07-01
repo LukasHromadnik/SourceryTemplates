@@ -1,1 +1,0 @@
-protocol MarshalModel: AutoCodingKeys, AutoMarshalInit { }
