@@ -1,0 +1,19 @@
+// Auto-generated CodingKeys
+
+{% for type in types.implementing.AutoCodingKeys where type.kind != "protocol" and type.storedVariables.count > 0 %}
+extension {{ type.name }} {
+    enum CodingKeys: String, CodingKey {
+        {% for var in type.storedVariables where not var.annotations.skipMapping %}
+        {% if var.name|hasPrefix:"_" %}
+        // swiftlint:disable:next identifier_name
+        {% endif %}
+        {% if var.annotations.apiKey %}
+        case {{ var.name }} = "{{ var.annotations.apiKey }}"
+        {% else %}
+        case {{ var.name }}
+        {% endif %}
+        {% endfor %}
+    }
+}
+
+{% endfor %}

@@ -1,6 +1,7 @@
 struct Event: AutoDecodable {
     let id: Int
     let name: String
+    // sourcery:apiKey = listid
     let listID: String
     let timestamp: String
     let fields: [String: String]
